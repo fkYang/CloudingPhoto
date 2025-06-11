@@ -1,0 +1,53 @@
+curl --location '192.168.1.13:12344/v1/chat/completions' \
+--data '{
+	"model": "deepseek-r1-distill-qwen-14b",
+	"stream": false,
+	"messages": [{
+			"role": "system",
+			"content": "\u4f60\u662f\u4e00\u4e2a\u5929\u6c14\u67e5\u8be2\u52a9\u624b\uff0c\u53ef\u4ee5\u67e5\u8be2\u67d0\u4e2a\u57ce\u5e02\u7684\u5929\u6c14\u60c5\u51b5"
+		},
+		{
+			"role": "user",
+			"content": "hi\uff0c\u897f\u5b89\u5929\u6c14\u600e\u4e48\u6837"
+		},
+
+
+        
+		{
+			"role": "assistant",
+			"tool_calls": [{
+				"id": "703406405",
+				"type": "function",
+				"function": {
+					"name": "weather",
+					"arguments": "{\"city\":\"西安\"}"
+				}
+			}]
+		},
+		{
+			"role": "tool",
+			"content":"晴天",
+			"tool_call_id": "703406405"
+
+		}
+	],
+	"tool_choice": "auto",
+	"tools": [{
+		"type": "function",
+		"function": {
+			"name": "weather",
+			"description": "\u6839\u636e\u57ce\u5e02\u540d\u79f0\u83b7\u53d6\u5929\u6c14\u9884\u62a5",
+			"parameters": {
+				"additionalProperties": false,
+				"properties": {
+					"city": {
+						"type": "string"
+					}
+				},
+				"required": ["city"],
+				"type": "object"
+			}
+		}
+	}],
+	"user": "85d779bf-b987-4921-bb45-0d92bde25a3f"
+}'
